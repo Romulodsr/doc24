@@ -1,0 +1,174 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+    <!-- Meta Tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="Site keywords here">
+    <meta name="description" content="">
+    <meta name='copyright' content=''>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Title -->
+    <title>Resultados</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="img/favicon.png">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Nice Select CSS -->
+    <link rel="stylesheet" href="css/nice-select.css">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <!-- icofont CSS -->
+    <link rel="stylesheet" href="css/icofont.css">
+    <!-- Slicknav -->
+    <link rel="stylesheet" href="css/slicknav.min.css">
+    <!-- Owl Carousel CSS -->
+    <link rel="stylesheet" href="css/owl-carousel.css">
+    <!-- Datepicker CSS -->
+    <link rel="stylesheet" href="css/datepicker.css">
+    <!-- Animate CSS -->
+    <link rel="stylesheet" href="css/animate.min.css">
+    <!-- Magnific Popup CSS -->
+    <link rel="stylesheet" href="css/magnific-popup.css">
+
+    <!-- Medipro CSS -->
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+    <!-- Header Area -->
+    <header class="header">
+        <!-- Topbar -->
+        
+        <!-- End Topbar -->
+
+        <!-- Header Inner -->
+<!-- Header Inner -->
+<div class="header-inner">
+    <div class="container">
+        <div class="inner">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-12">
+                    <!-- Start Logo -->
+                    <div class="logo">
+                        <a href="index.html"
+                            style="color: #1A76D1; font-size: 2em; font-family: 'Poppins', sans-serif;">Doc24</a>
+                    </div>
+                    <!-- End Logo -->
+                    <!-- Mobile Nav -->
+                    <div class="mobile-nav"></div>
+                    <!-- End Mobile Nav -->
+                </div>
+                <div class="col-lg-7 col-md-9 col-12">
+                    <!-- Main Menu -->
+    
+                    <!--/ End Main Menu -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+        <!--/ End Header Inner -->
+    </header>
+    <!-- End Header Area -->
+
+    <!-- Results Section -->
+    <section class="results">
+        <div class="container">
+            <h1>Resultados</h1>
+            <div id="narrative"></div>
+        </div>
+    </section>
+    <!-- End Results Section -->
+
+    <!-- Footer Area -->
+    <footer id="footer" class="footer ">
+        <!-- Footer Top -->
+        <div class="footer-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 col-12">
+                        <div class="single-footer">
+                            <h2>Sobre Nos</h2>
+                            <p>Somos o Doc24, um app que usa reconhecimento facial e inteligência artificial para avaliar sua saúde e indicar, de forma rápida e personalizada, quando é hora de procurar um médico.</p>
+                            <!-- Social -->
+                            <ul class="social">
+                                <li><a href="#"><i class="icofont-facebook"></i></a></li>
+                                <li><a href="#"><i class="icofont-google-plus"></i></a></li>
+                                <li><a href="#"><i class="icofont-twitter"></i></a></li>
+                                <li><a href="#"><i class="icofont-vimeo"></i></a></li>
+                                <li><a href="#"><i class="icofont-pinterest"></i></a></li>
+                            </ul>
+                            <!-- End Social -->
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 col-12">
+                        <div class="single-footer">
+                            <h2>Newsletter</h2>
+                            <p>Assine nossa newsletter e fique por dentro de todas as novidades! Receba dicas exclusivas, atualizações do nosso app e descubra como cuidar ainda mais da sua saúde</p>
+                            <form action="mail/mail.php" method="get" target="_blank" class="newsletter-inner">
+                                <input name="email" placeholder="Email Address" class="common-input" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your email address'" required="" type="email">
+                                <button class="button"><i class="icofont icofont-paper-plane"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- End Footer Area -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const formData = Object.fromEntries(urlParams.entries());
+
+            const altura = parseFloat(formData.altura) / 100; // Converter para metros
+            const peso = parseFloat(formData.peso);
+            const imc = (peso / (altura * altura)).toFixed(2);
+
+            let categoriaImc = 'Normal';
+            if (imc >= 25) {
+                categoriaImc = 'Sobrepeso';
+            } else if (imc < 18.5) {
+                categoriaImc = 'Abaixo do peso';
+            }
+
+            const frequenciaCardiaca = 71; // Valor de exemplo, você pode calcular dinamicamente com base nos dados do usuário.
+            const sistolica = 132; // Valor de exemplo
+            const diastolica = 76; // Valor de exemplo
+            const saturacaoOxigenio = '97%'; // Valor de exemplo
+            const nivelEstresse = 'Normal'; // Valor de exemplo
+            const riscoDoencaCardiaca = 'Baixo'; // Valor de exemplo
+            const riscoAVC = 'Baixo'; // Valor de exemplo
+
+            const narrativa = `
+                Com base nas informações fornecidas, aqui está um resumo do seu perfil de saúde: 
+                Seu Índice de Massa Corporal (IMC) é ${imc}, o que sugere que você está na categoria ${categoriaImc}. 
+                Isso significa que você está dentro da faixa de peso ${categoriaImc}. Sua frequência cardíaca é ${frequenciaCardiaca} batimentos por minuto, o que está dentro da faixa normal para a maioria dos adultos. 
+                Sua pressão arterial é ${sistolica}/${diastolica} mmHg, indicando níveis normais de pressão arterial. 
+                Além disso, sua saturação de oxigênio é ${saturacaoOxigenio}, o que está dentro da faixa saudável, indicando boa função respiratória. 
+                Seu nível de estresse é ${nivelEstresse}, o que sugere que você está em um estado mental equilibrado. 
+                Com base no seu perfil, seu risco de doença cardíaca é ${riscoDoencaCardiaca}, e seu risco de AVC é ${riscoAVC}. 
+                É importante continuar mantendo um estilo de vida saudável e monitorar sua saúde regularmente. Continue com o bom trabalho!
+            `;
+
+            // Inserir a narrativa no HTML
+            const narrativeContainer = document.getElementById('narrative');
+            narrativeContainer.innerHTML = `<p>${narrativa}</p>`;
+        });
+    </script>
+</body>
+
+</html>

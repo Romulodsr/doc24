@@ -1,0 +1,163 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+    <!-- Meta Tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="Site keywords here">
+    <meta name="description" content="">
+    <meta name='copyright' content=''>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Title -->
+    <title>Facial Recognition</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="img/favicon.png">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Nice Select CSS -->
+    <link rel="stylesheet" href="css/nice-select.css">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <!-- icofont CSS -->
+    <link rel="stylesheet" href="css/icofont.css">
+    <!-- Slicknav -->
+    <link rel="stylesheet" href="css/slicknav.min.css">
+    <!-- Owl Carousel CSS -->
+    <link rel="stylesheet" href="css/owl-carousel.css">
+    <!-- Datepicker CSS -->
+    <link rel="stylesheet" href="css/datepicker.css">
+    <!-- Animate CSS -->
+    <link rel="stylesheet" href="css/animate.min.css">
+    <!-- Magnific Popup CSS -->
+    <link rel="stylesheet" href="css/magnific-popup.css">
+
+    <!-- Medipro CSS -->
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+    <!-- Header Area -->
+    <header class="header">
+        <!-- Topbar -->
+        <div class="topbar">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-5 col-12">
+                        <!-- Contact -->
+              
+                        <!-- End Contact -->
+                    </div>
+                    <div class="col-lg-6 col-md-7 col-12">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Topbar -->
+
+        <!-- Header Inner -->
+        <div class="header-inner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-12">
+                        <!-- Start Logo -->
+                        <div class="logo">
+                            <a href="index.html" style="color: #1A76D1; font-size: 2em; font-family: 'Poppins', sans-serif;">Doc24</a>
+                        </div>
+                        <!-- End Logo -->
+                        <!-- Mobile Nav -->
+                        <div class="mobile-nav"></div>
+                        <!-- End Mobile Nav -->
+                    </div>
+                    <div class="col-lg-7 col-md-9 col-12">
+                        <!-- Main Menu -->
+          
+                        <!--/ End Main Menu -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/ End Header Inner -->
+    </header>
+    <!-- End Header Area -->
+
+    <!-- Facial Recognition Section -->
+    <section class="facial-recognition">
+        <div class="container">
+            <h1>Facial Recognition</h1>
+            <div id="video-container">
+                <video id="video" width="720" height="560" autoplay muted></video>
+            </div>
+            <button id="startButton" class="btn btn-primary">Start Recognition</button>
+            <div id="results" style="margin-top: 20px;"></div>
+        </div>
+    </section>
+    <!-- End Facial Recognition Section -->
+
+    <!-- Add the rest of your page content here -->
+
+    <!-- Load face-api.js library -->
+    <script defer src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api@0.22.2/dist/face-api.min.js"></script>
+    <script>
+        async function startVideo() {
+            const video = document.getElementById('video');
+            const stream = await navigator.mediaDevices.getUserMedia({ video: {} });
+            video.srcObject = stream;
+        }
+
+        async function loadModels() {
+            await faceapi.nets.tinyFaceDetector.loadFromUri('/models');
+            await faceapi.nets.faceLandmark68Net.loadFromUri('/models');
+            await faceapi.nets.faceRecognitionNet.loadFromUri('/models');
+            await faceapi.nets.faceExpressionNet.loadFromUri('/models');
+        }
+
+        async function startRecognition() {
+            const video = document.getElementById('video');
+            const resultsDiv = document.getElementById('results');
+
+            video.addEventListener('play', async () => {
+                const canvas = faceapi.createCanvasFromMedia(video);
+                document.getElementById('video-container').append(canvas);
+                const displaySize = { width: video.width, height: video.height };
+                faceapi.matchDimensions(canvas, displaySize);
+
+                setInterval(async () => {
+                    const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions();
+                    const resizedDetections = faceapi.resizeResults(detections, displaySize);
+                    canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+                    faceapi.draw.drawDetections(canvas, resizedDetections);
+                    faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
+                    faceapi.draw.drawFaceExpressions(canvas, resizedDetections);
+
+                    // Display results
+                    resultsDiv.innerHTML = JSON.stringify(detections, null, 2);
+
+                    // Redirect to teste.html after recognition
+                    if (detections.length > 0) {
+                        setTimeout(() => {
+                            window.location.href = 'teste.html';
+                        }, 3000); // Redirect after 3 seconds
+                    }
+                }, 100);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadModels();
+            startVideo();
+            document.getElementById('startButton').addEventListener('click', startRecognition);
+        });
+    </script>
+</body>
+
+</html>
