@@ -53,11 +53,9 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-5 col-12">
                         <!-- Contact -->
-              
-                        <!-- End Contact -->
+               <!-- End Contact -->
                     </div>
                     <div class="col-lg-6 col-md-7 col-12">
-
                     </div>
                 </div>
             </div>
@@ -80,13 +78,12 @@
                     </div>
                     <div class="col-lg-7 col-md-9 col-12">
                         <!-- Main Menu -->
-          
-                        <!--/ End Main Menu -->
+                        <!-- End Main Menu -->
                     </div>
                 </div>
             </div>
         </div>
-        <!--/ End Header Inner -->
+        <!-- End Header Inner -->
     </header>
     <!-- End Header Area -->
 
@@ -107,57 +104,9 @@
 
     <!-- Load face-api.js library -->
     <script defer src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api@0.22.2/dist/face-api.min.js"></script>
-    <script>
-        async function startVideo() {
-            const video = document.getElementById('video');
-            const stream = await navigator.mediaDevices.getUserMedia({ video: {} });
-            video.srcObject = stream;
-        }
 
-        async function loadModels() {
-            await faceapi.nets.tinyFaceDetector.loadFromUri('/models');
-            await faceapi.nets.faceLandmark68Net.loadFromUri('/models');
-            await faceapi.nets.faceRecognitionNet.loadFromUri('/models');
-            await faceapi.nets.faceExpressionNet.loadFromUri('/models');
-        }
-
-        async function startRecognition() {
-            const video = document.getElementById('video');
-            const resultsDiv = document.getElementById('results');
-
-            video.addEventListener('play', async () => {
-                const canvas = faceapi.createCanvasFromMedia(video);
-                document.getElementById('video-container').append(canvas);
-                const displaySize = { width: video.width, height: video.height };
-                faceapi.matchDimensions(canvas, displaySize);
-
-                setInterval(async () => {
-                    const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions();
-                    const resizedDetections = faceapi.resizeResults(detections, displaySize);
-                    canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-                    faceapi.draw.drawDetections(canvas, resizedDetections);
-                    faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
-                    faceapi.draw.drawFaceExpressions(canvas, resizedDetections);
-
-                    // Display results
-                    resultsDiv.innerHTML = JSON.stringify(detections, null, 2);
-
-                    // Redirect to teste.html after recognition
-                    if (detections.length > 0) {
-                        setTimeout(() => {
-                            window.location.href = 'teste.html';
-                        }, 3000); // Redirect after 3 seconds
-                    }
-                }, 100);
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', async () => {
-            await loadModels();
-            startVideo();
-            document.getElementById('startButton').addEventListener('click', startRecognition);
-        });
-    </script>
+    <!-- Link the external JavaScript file -->
+    <script src="face-recognition.js"></script>
 </body>
 
 </html>
